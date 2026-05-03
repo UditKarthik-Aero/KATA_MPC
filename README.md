@@ -1,40 +1,36 @@
-# KATA_MPC
-
-
 # KATA-MPC: Phased Predictive Aerospace Controller
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-**KATA-MPC** (Kinematic Adaptive Trajectory Algorithm - Model Predictive Controller) is a high-fidelity landing simulation designed to solve the non-linear control problem of autonomous rocket recovery. 
+**KATA-MPC** (Kinematic Adaptive Trajectory Algorithm - Model Predictive Controller) is an independently developed guidance framework for autonomous rocket recovery. It utilizes a three-phase transition—from aerodynamic steering to a multi-stage throttled landing burn—to achieve precision landings under stochastic environmental disturbances.
 
-By utilizing a three-phase guidance transition—moving from aerodynamic glide-slope correction to a multi-stage throttled landing burn—this model achieves high-precision landings under stochastic environmental disturbances.
-
-## 🚀 Research Highlights
+## 🚀 Research Performance
 *   **Probability of Mission Success (PMS):** 97.00% (Validated via N=1000 Monte Carlo Simulation).
-*   **Target Precision:** Mean landing offset of ~0.20m.
-*   **Robustness:** Demonstrated stability under 15 m/s Gaussian wind gusts and sensor noise.
-*   **Physics Engine:** Features altitude-dependent atmospheric density, variable $I_{sp}$ models, and non-linear Lift/Drag coefficients.
+*   **Mean Precision:** Landing offset of ~0.20m.
+*   **Vertical Stability:** Mean $V_y$ of 3.47 m/s (Threshold: < 5.0 m/s).
+*   **Horizontal Stability:** Mean $V_x$ of 0.35 m/s (Threshold: < 3.0 m/s).
 
-## 📊 Performance Analysis
+## 📊 Statistical Validation
+The following histograms represent the terminal state distribution of 1,000 simulated landings under 15 m/s Gaussian wind gusts and sensor noise.
+
 <p align="center">
-  <img src="path/to/your/monte_carlo_results.png" width="800" alt="Monte Carlo Results">
-  <br><i>Figure 1: Distribution of landing offsets and touchdown velocities across 1,000 iterations.</i>
+  <img src="monte_carlo_results.png" width="900" alt="KATA-MPC Monte Carlo Histograms">
+  <br><i>Figure 1: Monte Carlo results showing Landing Offset (Left), Vertical Velocity (Center), and Horizontal Velocity (Right). Dashed lines represent mission-critical safety thresholds.</i>
 </p>
 
 ## 🛠 Methodology
-The controller operates in three distinct phases:
-1.  **Aero-Glide Phase:** Correcting lateral drift using atmospheric lift and angle of attack (AoA) optimization.
-2.  **Pulsed Transition:** Calculating the optimal "Suicide Burn" ignition point based on real-time mass-altitude-velocity (MAV) data.
-3.  **Final Powered Descent:** A high-frequency feedback loop to minimize touchdown velocity ($V_y < 5m/s$) and horizontal drift ($V_x < 3m/s$).
+The **KATA-MPC** framework addresses the non-linear challenge of "suicide burns" with high-latency computational hardware:
+1.  **Aero-Correction Phase:** Dynamic optimization of Angle of Attack (AoA) to align the trajectory with the landing pad using atmospheric lift.
+2.  **Predictive Ignition:** A heuristic-based law that calculates the optimal ignition point based on real-time mass-altitude-velocity (MAV) data.
+3.  **Throttled Descent:** High-frequency (100Hz) feedback loop to minimize terminal drift and ensure soft touchdown.
 
-## 💻 Installation & Usage
-```bash
-# Clone the repository
-git clone [https://github.com/yourusername/KATA-MPC.git](https://github.com/yourusername/KATA-MPC.git)
+## 💻 Technical Implementation
+*   **Language:** Python.
+*   **Libraries:** NumPy (Vector math), Matplotlib (Analysis).
+*   **Physics Engine:** Custom-built model including altitude-dependent density, variable $I_{sp}$, and mass loss dynamics.
 
-# Install dependencies
-pip install numpy matplotlib
+## 📝 About the Author
+Developed by a 16-year-old independent researcher, black belt karate athlete, and national medalist. This project serves as a case study in applying the discipline and iterative refinement of martial arts to computational aerospace engineering.
 
-# Run the Monte Carlo Simulation
-python rocket_sim.py
+---
